@@ -58,6 +58,35 @@ replacements_dict = {1: 22, 2: 24, 3: 23, 4: 25, 5: 3, 6: 4, 7: 8, 8: 19, 9: 20,
                      10: 21, 11: 9, 12: 9, 13: 10, 14: 11, 15: 12, 16: 13, 17: 14,
                      18: 15, 19: 16, 20: 25, 21: 17, 22: 18, 23: 6, 24: 1, 25: 2, 26: 7, 27: 5}
 
+regions = {
+    1: 'Vinnytsia r.',
+    2: 'Volyn r.',
+    3: 'Dnipro r.',
+    4: 'Donetsk r.',
+    5: 'Zhytomyr r.',
+    6: 'Zakarpattia r.',
+    7: 'Zaporizhzhia r.',
+    8: 'Ivano-Frankivsk r.',
+    9: 'Kyiv r.',
+    10: 'Kirovohrad r.',
+    11: 'Luhansk r.',
+    12: 'Lviv r.',
+    13: 'Mykolaiv r.',
+    14: 'Odesa r.',
+    15: 'Poltava r.',
+    16: 'Rivne r.',
+    17: 'Sumy r.',
+    18: 'Ternopil r.',
+    19: 'Kharkiv r.',
+    20: 'Kherson r.',
+    21: 'Khmelnytshyi r.',
+    22: 'Cherkasy r.',
+    23: 'Chernivtsi r.',
+    24: 'Chernihiv r.',
+    25: 'AR Crimea',
+    26: 'Kyiv c.',
+    27: 'Sevastopol c.'
+}
 
 class DataApp(server.App):
     title = 'NOAA Data Visualisation'
@@ -140,7 +169,7 @@ class DataApp(server.App):
         {
             'type': 'button',
             'id': 'update_data',
-            'label': 'Show data'
+            'label': 'Update Data'
         }]
 
     def __init__(self):
@@ -170,7 +199,9 @@ class DataApp(server.App):
             ]
 
         ax = sns.lineplot(x='Year', y=params['indicator'], data=filtered_df, ci=None)
-        return ax.get_figure()
+        ax.set_title(regions[int(params['area_index'])])
+
+        return plt.gcf()
 
     def parse_range(self, r):
         start, end = map(int, r.split('-'))
